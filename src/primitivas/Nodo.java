@@ -8,82 +8,39 @@ package primitivas;
  *
  * @author cesar
  */
-public class Nodo<T> {
-    private T dato;
-    private int altura;
-    private Lista<Articulo> articulos;
-    private Nodo izquierdo;
-    private Nodo derecho;
-    private String hash;
+public class Nodo<k, v> {
+    private k clave;
+    private v valor;
+    private Nodo<k, v> pNext;
 
-    public Nodo(T dato, String hash) {
-        this.dato = dato;
-        this.derecho = null;
-        this.izquierdo = null;
-        this.altura = 1;
-        this.articulos = new Lista();
-        this.hash = hash;
+    public Nodo(k clave, v valor) {
+        this.clave = clave;
+        this.valor = valor;
+        this.pNext = null;
     }
 
-    public Nodo(String hash) {
-        this.hash = hash;
-        this.derecho = null;
-        this.izquierdo = null;
-        this.altura = 1;
-        this.articulos = new Lista();
-    }
-    
-    
-
-    public Lista<Articulo> getArticulos() {
-        return articulos;
+    public k getClave() {
+        return clave;
     }
 
-    public void setArticulos(Lista<Articulo> articulos) {
-        this.articulos = articulos;
+    public void setClave(k clave) {
+        this.clave = clave;
     }
 
-    public String getHash() {
-        return hash;
+    public v getValor() {
+        return valor;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-    
-    
-
-    public T getDato() {
-        return dato;
+    public void setValor(v valor) {
+        this.valor = valor;
     }
 
-    public void setDato(T dato) {
-        this.dato = dato;
+    public Nodo getpNext() {
+        return pNext;
     }
 
-    public Nodo getIzquierdo() {
-        return izquierdo;
+    public void setpNext(Nodo pNext) {
+        this.pNext = pNext;
     }
-
-    public void setIzquierdo(Nodo izquierdo) {
-        this.izquierdo = izquierdo;
-    }
-
-    public Nodo getDerecho() {
-        return derecho;
-    }
-
-    public void setDerecho(Nodo derecho) {
-        this.derecho = derecho;
-    }
-
-    public int getAltura() {
-        return altura;
-    }
-
-    public void setAltura(int altura) {
-        this.altura = altura;
-    }
-    
     
 }
