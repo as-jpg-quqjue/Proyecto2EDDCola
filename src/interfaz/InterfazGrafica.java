@@ -41,6 +41,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
         botonAddUser = new javax.swing.JButton();
         botonMostrarUser = new javax.swing.JButton();
         botonAnadirDoc = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        output = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,33 +59,51 @@ public class InterfazGrafica extends javax.swing.JFrame {
         botonAnadirDoc.setText("Añadir Documento");
         botonAnadirDoc.addActionListener(this::botonAnadirDocActionPerformed);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel1.setText("Pila de Impresión");
+
+        output.setColumns(20);
+        output.setRows(5);
+        jScrollPane1.setViewportView(output);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonMostrarCola)
-                    .addComponent(botonAddUser))
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAnadirDoc)
-                    .addComponent(botonMostrarUser))
-                .addContainerGap(87, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(botonMostrarCola, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonMostrarUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonAnadirDoc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonMostrarCola)
-                    .addComponent(botonMostrarUser))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAddUser)
-                    .addComponent(botonAnadirDoc))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(32, 32, 32)
+                .addComponent(botonMostrarCola)
+                .addGap(21, 21, 21)
+                .addComponent(botonMostrarUser)
+                .addGap(18, 18, 18)
+                .addComponent(botonAddUser)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(botonAnadirDoc)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))))
         );
 
         pack();
@@ -139,42 +160,50 @@ public class InterfazGrafica extends javax.swing.JFrame {
         String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
         String paginasS = JOptionPane.showInputDialog(this, "Cantidad de paginas:");
-        int paginas = Integer.parseInt(paginasS);
-        String[] opciones = {"Prioridad Alta", "Prioridad Media", "Prioridad Baja"};
-        int seleccion = JOptionPane.showOptionDialog(this,
-            "¿Qué prioridad desea que tenga este usuario?",
-            "Escoger Prioridad",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opciones,
-             opciones[0]);
-        
-        String prioridad = "";
-        switch (seleccion) { 
-            case 0:
-                {
-                  prioridad = "prioridad_alta";
-                  break;
-                }
-            
-            case 1:
-                {
-                  prioridad = "prioridad_media";  
-                  break;
-                }
-                
-            case 2:
-                {
-                  prioridad = "prioridad_baja";
-                  break;
-                }
+        if(paginasS.matches("^[0-9]*$") && paginasS.length() > 1){
+            int paginas = Integer.parseInt(paginasS);
+            String[] opciones = {"Prioridad Alta", "Prioridad Media", "Prioridad Baja"};
+            int seleccion = JOptionPane.showOptionDialog(this,
+                "¿Qué prioridad desea que tenga este usuario?",
+                "Escoger Prioridad",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                 opciones[0]);
+
+            String prioridad = "";
+            switch (seleccion) { 
+                case 0:
+                    {
+                      prioridad = "prioridad_alta";
+                      break;
+                    }
+
+                case 1:
+                    {
+                      prioridad = "prioridad_media";  
+                      break;
+                    }
+
+                case 2:
+                    {
+                      prioridad = "prioridad_baja";
+                      break;
+                    }
+            }
+            documento doc = new documento(docname, paginas, prioridad, false);
+            Usuario usertest = new Usuario(username, prioridad); //SE DEBE QUITAR ESTO DESPUES DE IMPLEMENTAR ESTADOS DE GUARTADO!!
+            logica.AnadirDocumentoUser(usertest, doc); 
         }
-        documento doc = new documento(docname, paginas, prioridad, false);
-        Usuario usertest = new Usuario(username, prioridad); //SE DEBE QUITAR ESTO DESPUES DE IMPLEMENTAR ESTADOS DE GUARTADO!!
-        logica.AnadirDocumentoUser(usertest, doc); 
+        else
+        {
+            javax.swing.JOptionPane.showMessageDialog(null,
+                "Eso no es un numero valido.",
+                "ERROR",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_botonAnadirDocActionPerformed
-    
+}
     
     
     /**
@@ -207,5 +236,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JButton botonAnadirDoc;
     private javax.swing.JButton botonMostrarCola;
     private javax.swing.JButton botonMostrarUser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea output;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@ import clases.Usuario;
 
 import clases.Usuario;
 import clases.documento;
+import javax.swing.JOptionPane;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -91,6 +92,12 @@ public class LogicaInterfaz {
             
             // 3. Los conectamos con un Edge (una línea)
             graph.addEdge(user.getNombre() + "-" + docname, (user.getNombre()), docname);
+        }
+        else {
+            javax.swing.JOptionPane.showMessageDialog(null,
+                "El usuario " + user.getNombre() + " no existe en el sistema.",
+                "ERROR",
+                javax.swing.JOptionPane.ERROR_MESSAGE);;
         }
     }
 }
