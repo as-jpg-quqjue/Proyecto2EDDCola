@@ -86,24 +86,35 @@ public class LogicaInterfaz {
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
     }
     
-    public void AnadirDocumentoUser(Usuario user, documento doc){
-        Node nodoUser = graph.getNode(user.getNombre());
-        String docname = doc.getNombre();
-        if (nodoUser != null){
-            Node docNode = graph.addNode(docname);
+    
+public void AnadirDocumentoUser(String username, documento doc) {
+    Usuario usuario = logica.getUsuarios().get(username); 
+    
+    if (usuario != null) {
+        usuario.agregarDocumento(doc);
+        
+        
+        Node nodoUser = graph.getNode(username);
+        if (nodoUser != null) {
+            String docname = doc.getNombre();
+            Node docNode = graph.addNode(username + "-" + docname);
             docNode.setAttribute("ui.label", docname);
-            docNode.setAttribute("ui.class", "documento"); // Aplicamos el CSS pequeño
-            
-            // 3. Los conectamos con un Edge (una línea)
-            graph.addEdge(user.getNombre() + "-" + docname, (user.getNombre()), docname);
+            docNode.setAttribute("ui.class", "documento");
+            graph.addEdge(username + "-" + docname, username, username + "-" + docname);
         }
-        else {
-            javax.swing.JOptionPane.showMessageDialog(null,
-                "El usuario " + user.getNombre() + " no existe en el sistema.",
-                "ERROR",
-                javax.swing.JOptionPane.ERROR_MESSAGE);;
-        }
+        output.append("✓ Documento '" + doc.getNombre() + "' añadido a " + username + "\n");
+    } else {
+        JOptionPane.showMessageDialog(null,
+            "El usuario '" + username + "' no existe en el sistema.",
+            "ERROR",
+            JOptionPane.ERROR_MESSAGE);
     }
+}
+
+
+public HashTable<String, Usuario> getUsuarios() {
+    return usuarios; // 
+}
 
     boolean guardarUsuariosEnCSV() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -28,7 +28,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
     public InterfazGrafica() {
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -218,6 +219,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 "Eso no es un numero valido.",
                 "ERROR",
                 javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonAnadirDocActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -239,7 +241,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 }
-    
+
     
     /**
      * @param args the command line arguments
@@ -277,4 +279,4 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea output;
     // End of variables declaration//GEN-END:variables
-}
+
