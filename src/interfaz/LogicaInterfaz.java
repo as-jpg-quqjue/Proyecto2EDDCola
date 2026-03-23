@@ -10,6 +10,8 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
+import primitivas.GuardadoCSV;
+import primitivas.HashTable;
 
 
 /**
@@ -19,6 +21,8 @@ import org.graphstream.ui.view.Viewer;
 public class LogicaInterfaz {
     private Graph graph;
     private Viewer viewer;
+    private GuardadoCSV guardado = new GuardadoCSV();
+    private HashTable<String, Usuario> usuarios = new HashTable<>(50);
 
     public LogicaInterfaz() {
         System.setProperty("org.graphstream.ui", "swing");
@@ -100,4 +104,14 @@ public class LogicaInterfaz {
                 javax.swing.JOptionPane.ERROR_MESSAGE);;
         }
     }
+
+    boolean guardarUsuariosEnCSV() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    boolean cargarUsuariosDesdeCSV() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
 }
