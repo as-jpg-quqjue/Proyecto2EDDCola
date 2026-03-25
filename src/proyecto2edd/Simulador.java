@@ -40,6 +40,13 @@ public class Simulador {
 
     }
     
+    /**
+     * Este procedimiento recibe un usuario, documento, tiempo de reloj y si es prioritario el documento para enviarlo a la cola.
+     * @param u Un usuario que se desea imprimir los documentos.
+     * @param d El documento qeu se desea imprimir.
+     * @param tiempoReloj Un long del reloj.
+     * @param esPrioritario Un booleano que marca si es prioritario el documento.
+     */
     public void enviarACola(Usuario u, Documento d, long tiempoReloj, boolean esPrioritario) {
         long prioridad = calcularEtiqueta(u, esPrioritario, tiempoReloj);
         Impresion nuevaImp = new Impresion(d, prioridad, u.getNombre());
@@ -53,6 +60,13 @@ public class Simulador {
         impresiones.get(u.getNombre()).insertar(nuevaImp);
     }
     
+    /**
+     * Esta función retorna un long que es la etiqueta calculada de tiempo que se tomara para imprimir.
+     * @param user El usuario al que le pertenece los documentos.
+     * @param esPrioritario Un booleano que marca si es prioritario o no.
+     * @param tiempoReloj El tiempo en el reloj actual.
+     * @return 
+     */
     public long calcularEtiqueta(Usuario user, boolean esPrioritario, long tiempoReloj) {
         if (!esPrioritario) {
             return tiempoReloj;
@@ -67,6 +81,12 @@ public class Simulador {
         return tiempoReloj;
     }
     
+    /**
+     * Esta función recibe un nombre de usuario, y un documento para eliminar que este en la cola, retorna un booleano que es falso si no elimino o verdadero si logro eliminar.
+     * @param nombreUsuario Un string que es el nombre del usuario.
+     * @param docAEliminar El documento que se desea eliminar.
+     * @return 
+     */
     public boolean eliminarDocumentoDeCola(String nombreUsuario, Documento docAEliminar) {
         Lista<Impresion> listaEnCola = impresiones.get(nombreUsuario);
         if (listaEnCola == null) {
@@ -95,6 +115,10 @@ public class Simulador {
         return false;
     }
     
+    /**
+     * Esta función busca llamar para imprimir lo que esta primero en la cola, retornando el resultado de la impresión.
+     * @return Una impresión que se libera de la cola.
+     */
     public Impresion liberarImpresora() {
         if (colaImpresion.esVacio())return null;
         
@@ -109,7 +133,13 @@ public class Simulador {
         }
         return impresa;
     }
-
+    
+    /**
+     * Una función que recibe un nombre y una prioridad y intenta agregarlos al motor, retornando un booleano que dice si fue exitosa la operación.
+     * @param nombre Un string nombre del usuario.
+     * @param prioridad Un string prioridad del usuario.
+     * @return Un booleano que retorna verdadero si se logro con exito añadir o falso si ya existe.
+     */
     public boolean agregarUsuario(String nombre, String prioridad) {
         if (!usuarios.contiene(nombre)) {
             usuarios.put(nombre, new Usuario(nombre, prioridad));
@@ -156,15 +186,27 @@ public class Simulador {
     public void setReloj(long reloj) {
         this.reloj = reloj;
     }
-
+    
+    /**
+     * Una función que retorna la secuencia.
+     * @return Un entero que sirve como secuencia.
+     */
     public int getSecuencia() {
         return secuencia;
     }
-
+    
+     /**
+     * Un procedimiento que recibe un entero y lo asigna como secuencia.
+     * @param secuencia 
+     */
     public void setSecuencia(int secuencia) {
         this.secuencia = secuencia;
     }
     
+    /**
+     * Una función que retorna el hashtable con los usuarios registrados en el motor.
+     * @return Un hashtable de los usuarios.
+     */
     public HashTable<String, Usuario> getUsuarios()
     {
         return this.usuarios;
