@@ -43,6 +43,7 @@ public class HashTable<k, v> {
             if (aux.getClave().equals(clave)) {
                 return (v) aux.getValor();
             }
+            aux = aux.getpNext();
         }
         return null;
         

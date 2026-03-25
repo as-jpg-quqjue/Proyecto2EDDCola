@@ -11,18 +11,18 @@ package clases;
 public class Usuario {
     private String nombre;
     private String prioridad;
-    private documento[] documentos;
+    private Documento[] documentos;
     private int cantidad;
 
     public Usuario(String nombre, String prioridad) {
         this.nombre = nombre;
         this.prioridad = prioridad;
-        this.documentos = new documento[10];
+        this.documentos = new Documento[10];
         this.cantidad = 0;
     }
     
     public void redimensionar(){
-        documento[] nuevo = new documento[documentos.length*2];
+        Documento[] nuevo = new Documento[documentos.length*2];
         for (int i = 0; i < documentos.length; i++) {
             nuevo[i] = documentos[i];
         }
@@ -46,11 +46,11 @@ public class Usuario {
         this.prioridad = prioridad;
     }
 
-    public documento[] getDocumentos() {
+    public Documento[] getDocumentos() {
         return documentos;
     }
     
-    public void agregarDocumento(documento doc){
+    public void agregarDocumento(Documento doc){
         if (cantidad == documentos.length) {
             redimensionar();
         }
@@ -74,7 +74,7 @@ public class Usuario {
         return false;
     }
     
-    public documento buscar(String nombre){
+    public Documento buscar(String nombre){
         for (int i = 0; i < cantidad; i++) {
             if (documentos[i].getNombre().equals(nombre)) {
                 return documentos[i];
@@ -83,7 +83,7 @@ public class Usuario {
         return null;
     }
 
-    public void setDocumentos(documento[] documentos) {
+    public void setDocumentos(Documento[] documentos) {
         this.documentos = documentos;
     }
 

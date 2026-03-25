@@ -29,6 +29,25 @@ public class MonticuloBinario {
         flotar(iN);
     }
     
+    public void eliminarDocumentoEspecifico(Impresion imp) {
+        int indexEnMonticulo = imp.getIndice();
+
+        imp.setPrioridad(Long.MIN_VALUE);
+
+        flotar(indexEnMonticulo);
+
+        eliminarMin();
+    }
+    
+    public void imprimirArbol(int i, int nivel) {
+        if (i > iN) {
+            return;
+        }
+        imprimirArbol(2 * i + 1, nivel + 1); // Derecha
+        System.out.println("    ".repeat(nivel) + "[T:" + impresiones[i].getPrioridad() + "]");
+        imprimirArbol(2 * i, nivel + 1);     // Izquierda
+    }
+    
     public Impresion eliminarMin (){
         if (iN != 0) {
             Impresion min = impresiones[1];
@@ -51,17 +70,24 @@ public class MonticuloBinario {
         return null;
     }
     
-    private void flotar(int i){
+    public void flotar(int i){
         while(i>1 && impresiones[i].getPrioridad() < impresiones[i/2].getPrioridad()){
             intercambiar(i, i/2);
             i = i/2;
         }
     }
     
-    private void intercambiar(int i, int j){
+    private void intercambiar(int i, int j) {
         Impresion aux = impresiones[i];
         impresiones[i] = impresiones[j];
         impresiones[j] = aux;
+
+        if (impresiones[i] != null) {
+            impresiones[i].setIndice(i);
+        }
+        if (impresiones[j] != null) {
+            impresiones[j].setIndice(j);
+        }
     }
     
     private void hundir (int i){

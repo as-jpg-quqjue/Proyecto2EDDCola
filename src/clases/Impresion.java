@@ -4,97 +4,38 @@
  */
 package clases;
 
+import java.util.Objects;
+
 /**
  *
  * @author cesar
  */
 public class Impresion {
-    private String trabajoID;
-    private String nombreDoc;
-    private int paginas;
-    private String tipoDoc;
-    private long tiempo;
-    private long prioridad;
-    private boolean prioritario;
-    private int indice;
+    private Documento documento;   // El objeto con nombre, tamaño, etc.
+    private long prioridad;        // La etiqueta de tiempo (calculada con el reloj)
+    private int indice;            // SU POSICIÓN ACTUAL en el arreglo del Montículo
+    private String nombreUsuario;  // Referencia al dueño (útil para limpieza en la HashTable)
 
-    public Impresion(String trabajoID, String nombreDoc, int paginas, String tipoDoc, long tiempo, long prioridad, boolean prioritario) {
-        this.trabajoID = trabajoID;
-        this.nombreDoc = nombreDoc;
-        this.paginas = paginas;
-        this.tipoDoc = tipoDoc;
-        this.tiempo = tiempo;
+    public Impresion(Documento documento, long prioridad, String nombreUsuario) {
+        this.documento = documento;
         this.prioridad = prioridad;
-        this.prioritario = prioritario;
-        this.indice = -1;
+        this.nombreUsuario = nombreUsuario;
+        this.indice = -1; // -1 indica que aún no está en el montículo
     }
     
+    // Getters y Setters
+    public Documento getDoc() { return documento; }
     
+    public long getPrioridad() { return prioridad; }
+    public void setPrioridad(long prioridad) { this.prioridad = prioridad; }
 
-    public String getTrabajoID() {
-        return trabajoID;
-    }
+    public int getIndice() { return indice; }
+    public void setIndice(int indice) { this.indice = indice; }
 
-    public void setTrabajoID(String trabajoID) {
-        this.trabajoID = trabajoID;
-    }
+    public String getNombreUsuario() { return nombreUsuario; }
 
-    public String getNombreDoc() {
-        return nombreDoc;
+    @Override
+    public String toString() {
+        return "[" + documento.getNombre() + " | T:" + prioridad + "]";
     }
-
-    public void setNombreDoc(String nombreDoc) {
-        this.nombreDoc = nombreDoc;
-    }
-
-    public int getPaginas() {
-        return paginas;
-    }
-
-    public void setPaginas(int paginas) {
-        this.paginas = paginas;
-    }
-
-    public String getTipoDoc() {
-        return tipoDoc;
-    }
-
-    public void setTipoDoc(String tipoDoc) {
-        this.tipoDoc = tipoDoc;
-    }
-
-    public long getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(long tiempo) {
-        this.tiempo = tiempo;
-    }
-
-    public long getPrioridad() {
-        return prioridad;
-    }
-
-    public void setPrioridad(long prioridad) {
-        this.prioridad = prioridad;
-    }
-
-    public boolean isPrioritario() {
-        return prioritario;
-    }
-
-    public void setPrioritario(boolean prioritario) {
-        this.prioritario = prioritario;
-    }
-
-    public int getIndice() {
-        return indice;
-    }
-
-    public void setIndice(int indice) {
-        this.indice = indice;
-    }
-    
-    
-    
 }

@@ -1,9 +1,9 @@
 package interfaznew;
 
 import clases.Usuario;
-import proyecto2edd.Proyecto2EDD;
+import proyecto2edd.Simulador;
 import clases.Usuario;
-import clases.documento;
+import clases.Documento;
 import javax.swing.JOptionPane;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -22,9 +22,9 @@ public class LogicaInterfaz {
     private Viewer viewer;
     private GuardadoCSV guardado = new GuardadoCSV();
     private InterfazGrafica ui;
-    private Proyecto2EDD motor; //SE AÑADIO ESTO PARA COMUNICARSE CON FUNCIONES DEL RELOJ Y DE AÑADIR USUARIOS
+    private Simulador motor; //SE AÑADIO ESTO PARA COMUNICARSE CON FUNCIONES DEL RELOJ Y DE AÑADIR USUARIOS
 
-    public LogicaInterfaz(InterfazGrafica ui, Proyecto2EDD m) {
+    public LogicaInterfaz(InterfazGrafica ui, Simulador m) {
         System.setProperty("org.graphstream.ui", "swing");
         graph = new SingleGraph("UsuariosView");
         String css = "node { shape: box; fill-color: green; text-alignment: center; padding: 10px; size-mode: fit; } "
@@ -107,7 +107,7 @@ public class LogicaInterfaz {
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
     }
 
-    public void AnadirDocumentoUser(String username, documento doc) {
+    public void AnadirDocumentoUser(String username, Documento doc) {
         Usuario usuario = (Usuario) motor.getUsuarios().get(username);
 
         if (usuario != null) {
@@ -140,11 +140,11 @@ public class LogicaInterfaz {
 
     public void eliminarUsuarioUI(Usuario user) {
         String username = user.getNombre();
-        documento[] docs = user.getDocumentos();
+        Documento[] docs = user.getDocumentos();
 
         Node usernode = graph.getNode(username);
         if (usernode != null) {
-            for (documento doc : docs) {
+            for (Documento doc : docs) {
                 if (doc != null) {
                     String docId = username + "-" + doc.getNombre();
                     if (graph.getNode(docId) != null) {
@@ -160,7 +160,7 @@ public class LogicaInterfaz {
         }
     }
 
-    public void eliminarDocumentoUI(String username, documento doc) {
+    public void eliminarDocumentoUI(String username, Documento doc) {
         String docId = username + "-" + doc.getNombre();
         if (graph.getNode(docId) != null) {
             graph.removeNode(docId);

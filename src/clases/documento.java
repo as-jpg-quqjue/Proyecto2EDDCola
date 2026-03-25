@@ -8,13 +8,13 @@ package clases;
  *
  * @author cesar
  */
-public class documento {
+public class Documento {
     private String nombre;
     private int paginas;
     private String tipo;
     private boolean encola;
 
-    public documento(String nombre, int paginas, String tipo, boolean encola) {
+    public Documento(String nombre, int paginas, String tipo, boolean encola) {
         this.nombre = nombre;
         this.paginas = paginas;
         this.tipo = tipo;

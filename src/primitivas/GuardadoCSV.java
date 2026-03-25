@@ -7,7 +7,7 @@
 package primitivas;
 
 import clases.Usuario;
-import clases.documento;
+import clases.Documento;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import javax.swing.JFileChooser;
@@ -177,7 +177,7 @@ public class GuardadoCSV {
             escritor.newLine();
 
             for (int i = 0; i < usuario.getCantidad(); i++) {
-                documento doc = usuario.getDocumentos()[i];
+                Documento doc = usuario.getDocumentos()[i];
                 if (doc != null) {
                     escritor.write(doc.getNombre() + DELIMITADOR + 
                                   doc.getPaginas() + DELIMITADOR + 
@@ -229,7 +229,7 @@ public class GuardadoCSV {
                     String tipo = partes[2].trim();
                     boolean enCola = Boolean.parseBoolean(partes[3].trim());
 
-                    documento doc = new documento(nombreDoc, paginas, tipo, enCola);
+                    Documento doc = new Documento(nombreDoc, paginas, tipo, enCola);
                     usuario.agregarDocumento(doc);
                 }
             }
