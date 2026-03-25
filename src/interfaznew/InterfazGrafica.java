@@ -10,6 +10,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 import proyecto2edd.Proyecto2EDD;
+import primitivas.Normalizador;
 
 /**
  *
@@ -155,6 +156,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private void botonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAddUserActionPerformed
         String nombre = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         if (nombre != null && !nombre.trim().isEmpty()) {
+            nombre = Normalizador.NormalizarTexto(nombre);
             String[] opciones = {"Prioridad Alta", "Prioridad Media", "Prioridad Baja"};
             int seleccion = JOptionPane.showOptionDialog(this,
                     "¿Qué prioridad desea que tenga este usuario?",
@@ -213,6 +215,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         if (username == null) { //se añade esto por si acaso el usuario escapa
             return;
         }
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
 
         if (usuarioExistente == null) {
@@ -221,6 +224,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
 
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+        docname = Normalizador.NormalizarTexto(docname);
         if (usuarioExistente.buscar(docname) == null){
             String paginasS = JOptionPane.showInputDialog(this, "Cantidad de paginas:");
 
@@ -283,7 +287,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -291,6 +296,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
 
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+        docname = Normalizador.NormalizarTexto(docname);
         documento doc = usuarioExistente.buscar(docname);
 
         if (doc != null) {
@@ -313,6 +319,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);

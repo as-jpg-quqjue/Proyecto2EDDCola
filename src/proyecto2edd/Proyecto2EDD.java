@@ -27,9 +27,6 @@ public class Proyecto2EDD {
     HashTable<String, Impresion> impresiones = new HashTable(10);
     MonticuloBinario colaImpresion = new MonticuloBinario();
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         System.setProperty("org.graphstream.ui", "swing");
         java.awt.EventQueue.invokeLater(() -> {
@@ -37,7 +34,13 @@ public class Proyecto2EDD {
         });
 
     }
-
+    
+    /**
+     * Una función que recibe un nombre y una prioridad y intenta agregarlos al motor, retornando un booleano que dice si fue exitosa la operación.
+     * @param nombre Un string nombre del usuario.
+     * @param prioridad Un string prioridad del usuario.
+     * @return Un booleano que retorna verdadero si se logro con exito añadir o falso si ya existe.
+     */
     public boolean agregarUsuario(String nombre, String prioridad) {
         if (!usuarios.contiene(nombre)) {
             usuarios.put(nombre, new Usuario(nombre, prioridad));
@@ -81,15 +84,27 @@ public class Proyecto2EDD {
     public void setReloj(long reloj) {
         this.reloj = reloj;
     }
-
+    
+    /**
+     * Una función que retorna la secuencia.
+     * @return Un entero que sirve como secuencia.
+     */
     public int getSecuencia() {
         return secuencia;
     }
-
+    
+    /**
+     * Un procedimiento que recibe un entero y lo asigna como secuencia.
+     * @param secuencia 
+     */
     public void setSecuencia(int secuencia) {
         this.secuencia = secuencia;
     }
     
+    /**
+     * Una función que retorna el hashtable con los usuarios registrados en el motor.
+     * @return Un hashtable de los usuarios.
+     */
     public HashTable<String, Usuario> getUsuarios()
     {
         return this.usuarios;

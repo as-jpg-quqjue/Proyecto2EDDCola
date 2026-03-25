@@ -12,7 +12,11 @@ package primitivas;
 public class NodoLista<T> {
     protected T dato;
     protected NodoLista<T> pSig;
-
+    
+    /**
+     * El constructor de NodoLista
+     * @param dato El dato que se desea añadir a este nodo.
+     */
     public NodoLista(T dato) {
         this.dato = dato;
         this.pSig = null;
