@@ -47,7 +47,7 @@ public class Simulador {
      * @param tiempoReloj Un long del reloj.
      * @param esPrioritario Un booleano que marca si es prioritario el documento.
      */
-    public void enviarACola(Usuario u, Documento d, long tiempoReloj, boolean esPrioritario) {
+    public Impresion enviarACola(Usuario u, Documento d, long tiempoReloj, boolean esPrioritario) {
         long prioridad = calcularEtiqueta(u, esPrioritario, tiempoReloj);
         Impresion nuevaImp = new Impresion(d, prioridad, u.getNombre());
 
@@ -58,6 +58,7 @@ public class Simulador {
             impresiones.put(u.getNombre(), new Lista<>());
         }
         impresiones.get(u.getNombre()).insertar(nuevaImp);
+        return nuevaImp;
     }
     
     /**
@@ -210,5 +211,23 @@ public class Simulador {
     public HashTable<String, Usuario> getUsuarios()
     {
         return this.usuarios;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public Lista<Impresion> getColaOrdenadaParaUI() {
+        Lista<Impresion> listaParaUI = new Lista<>();
+        MonticuloBinario copia = this.colaImpresion.clonar();
+        while (!copia.esVacio()) {
+            listaParaUI.insertar(copia.eliminarMin());
+        }
+        return listaParaUI;
+    }
+    
+    public MonticuloBinario getColaImpresion()
+    {
+        return this.colaImpresion;
     }
 }

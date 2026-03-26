@@ -4,11 +4,13 @@ import clases.Usuario;
 import primitivas.GuardadoCSV;
 import clases.Documento;
 import javax.swing.JOptionPane;
+import clases.Impresion;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
+import primitivas.Lista;
 import proyecto2edd.Simulador;
 
 /**
@@ -50,10 +52,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         botonEliminarDocumento = new javax.swing.JButton();
         botonEliminarUsuario = new javax.swing.JButton();
+        botonAnadirCola = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        botonMostrarCola.setText("Mostrar Cola");
+        botonMostrarCola.setText("Mostrar Cola Simple");
         botonMostrarCola.addActionListener(this::botonMostrarColaActionPerformed);
 
         botonAddUser.setText("Añadir Usuario");
@@ -84,6 +87,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
         botonEliminarUsuario.setText("Eliminar Usuario");
         botonEliminarUsuario.addActionListener(this::botonEliminarUsuarioActionPerformed);
 
+        botonAnadirCola.setText("Añadir A Cola");
+        botonAnadirCola.addActionListener(this::botonAnadirColaActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,8 +117,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 432, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(213, 213, 213)
+                .addComponent(botonAnadirCola, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,6 +133,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAddUser)
                     .addComponent(botonMostrarCola))
+                .addGap(38, 38, 38)
+                .addComponent(botonAnadirCola)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAnadirDoc)
@@ -136,7 +148,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(botonEliminarUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -144,6 +156,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMostrarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarColaActionPerformed
+        Lista<Impresion> colaOrdenada = motor.getColaOrdenadaParaUI();
+        logica.refrescarColaUI(colaOrdenada);
         logica.mostrarVentanaCola();
     }//GEN-LAST:event_botonMostrarColaActionPerformed
 
@@ -190,11 +204,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 updateConsola("✗ Error: El usuario '" + nombre + "' ya existe en el sistema.\n");
                 JOptionPane.showMessageDialog(this, "Ese usuario ya existe.", "Error de Duplicado", JOptionPane.WARNING_MESSAGE);
             }
-        }
-        else
-        {
-           updateConsola("✗ Error: No puede poner un nombre vacio a un usuario.");
-           JOptionPane.showMessageDialog(this, "No puede pasar un usuario vacio.", "Error de Nombre", JOptionPane.WARNING_MESSAGE); 
+        } else {
+            updateConsola("✗ Error: No puede poner un nombre vacio a un usuario.");
+            JOptionPane.showMessageDialog(this, "No puede pasar un usuario vacio.", "Error de Nombre", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonAddUserActionPerformed
 
@@ -216,7 +228,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
 
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
-        if (usuarioExistente.buscar(docname) == null){
+        if (usuarioExistente.buscar(docname) == null) {
             String paginasS = JOptionPane.showInputDialog(this, "Cantidad de paginas:");
 
             if (paginasS != null) {
@@ -244,12 +256,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
                         javax.swing.JOptionPane.ERROR_MESSAGE);
                 updateConsola("✗ Error al añadir documento: No se inserto un nombre.\n");
             }
-        }
-        else{
+        } else {
             javax.swing.JOptionPane.showMessageDialog(null,
-                        "Ese documento ya existe.",
-                        "ERROR",
-                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                    "Ese documento ya existe.",
+                    "ERROR",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
             updateConsola("✗ Error al añadir documento: Ya existe ese documento.\n");
         }
     }//GEN-LAST:event_botonAnadirDocActionPerformed
@@ -312,14 +323,72 @@ public class InterfazGrafica extends javax.swing.JFrame {
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
             return;
-        }
-        else
-        {
+        } else {
             logica.eliminarUsuarioUI(usuarioExistente);
         }
-        
+
     }//GEN-LAST:event_botonEliminarUsuarioActionPerformed
 
+    private void botonAnadirColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirColaActionPerformed
+        String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
+        if (username == null) {
+            JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
+        if (usuarioExistente == null) {
+            JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+            if (docname == null) {
+                JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Documento doc = usuarioExistente.buscar(docname);
+            if (doc != null) {
+                if (!doc.isEncola()) {
+                    String[] opciones = {"Si es Prioritario", "No es Prioritario"};
+                    int seleccion = JOptionPane.showOptionDialog(this,
+                            "¿Este documento es prioritario?",
+                            "Escoger Prioridad",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            opciones,
+                            opciones[0]);
+
+                    boolean prioritario = false;
+                    switch (seleccion) {
+                        case 0: {
+                            prioritario = true;
+                            break;
+                        }
+
+                        case 1: {
+                            prioritario = false;
+                            break;
+                        }
+                        default: {
+                            return;
+                        }
+                    }
+                    Impresion imp = motor.enviarACola(usuarioExistente, doc, motor.getReloj(), prioritario);
+                    doc.setEncola(true);
+                    logica.agregarAColaUI(imp);
+                    //AÑADIR NOTIFICACIONES DE EXITO
+                }
+                else
+                {
+                     JOptionPane.showMessageDialog(this, "Este documento ya esta en cola.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: No se encontro el documento en el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+    }//GEN-LAST:event_botonAnadirColaActionPerformed
 
     public void updateConsola(String input) {
         output.setText("");
@@ -348,6 +417,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAddUser;
+    private javax.swing.JButton botonAnadirCola;
     private javax.swing.JButton botonAnadirDoc;
     private javax.swing.JButton botonEliminarDocumento;
     private javax.swing.JButton botonEliminarUsuario;

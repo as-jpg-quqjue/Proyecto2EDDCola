@@ -53,10 +53,15 @@
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="432" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
+              <Component id="botonAnadirCola" min="-2" pref="151" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,6 +75,8 @@
                   <Component id="botonAddUser" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botonMostrarCola" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="botonAnadirCola" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botonAnadirDoc" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -86,7 +93,7 @@
                   <Component id="botonEliminarUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="102" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="41" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -95,7 +102,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="botonMostrarCola">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Mostrar Cola"/>
+        <Property name="text" type="java.lang.String" value="Mostrar Cola Simple"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonMostrarColaActionPerformed"/>
@@ -178,6 +185,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEliminarUsuarioActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="botonAnadirCola">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="A&#xf1;adir A Cola"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAnadirColaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

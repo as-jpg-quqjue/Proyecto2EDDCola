@@ -11,11 +11,14 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 import primitivas.GuardadoCSV;
 import primitivas.HashTable;
-
+import clases.Impresion;
+import primitivas.Lista;
+import primitivas.MonticuloBinario;
 /**
  *
  * @author miwindowspc
  */
+
 public class LogicaInterfaz {
 
     private Graph graph;
@@ -23,6 +26,8 @@ public class LogicaInterfaz {
     private GuardadoCSV guardado = new GuardadoCSV();
     private InterfazGrafica ui;
     private Simulador motor; //SE AÑADIO ESTO PARA COMUNICARSE CON FUNCIONES DEL RELOJ Y DE AÑADIR USUARIOS
+    private Graph graphColaS;
+    private Node ultimoNodo;
     
     /**
      * El constructor de la logica de interfaz.
@@ -49,6 +54,7 @@ public class LogicaInterfaz {
         graph.setAttribute("ui.stylesheet", css);
         this.ui = ui;
         this.motor = m;
+        graphColaS = new SingleGraph("ColaViewSimple");
     }
     
     /**
@@ -99,20 +105,7 @@ public class LogicaInterfaz {
      */
     public void mostrarVentanaCola() {
         System.setProperty("org.graphstream.ui", "swing");
-        Graph graph = new SingleGraph("ArbolCola");
-        String css = "node {"
-                + "shape: box;"
-                + "stroke-mode: plain;"
-                + "stroke-color: #000000;"
-                + "fill-color: green;"
-                + "text-alignment: center;"
-                + "padding: 10, 15px;"
-                + "size: 20px, 20px;"
-                + "size-mode: fit;"
-                + "text-size: 14;"
-                + "}";
-
-        graph.setAttribute("ui.stylesheet", css);
+        /*
         Node n1 = graph.addNode("A");
         n1.setAttribute("ui.label", "ID: 102, Paginas: 15, Prioridad: Alta");
         n1.setAttribute("xy", 0, 0);
@@ -120,9 +113,39 @@ public class LogicaInterfaz {
         n2.setAttribute("ui.label", "ID: 105, Paginas: 15, Prioridad: Alta");
         n2.setAttribute("xy", -1, -1);
         graph.addEdge("AB", "A", "B");
-        Viewer viewer = graph.display();
+        */
+        Viewer viewer = graphColaS.display();
         viewer.disableAutoLayout();
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+    }
+    
+    public void refrescarColaUI(Lista<Impresion> colaDeImpresion) {
+       graphColaS.clear();
+    
+        String css = "node { shape: box; fill-color: #2ecc71; text-alignment: center; padding: 10px; size-mode: fit; stroke-mode: plain; stroke-color: black; } "
+                   + "edge { fill-color: black; size: 2px; }";
+        graphColaS.setAttribute("ui.stylesheet", css);
+
+        MonticuloBinario copia = motor.getColaImpresion().clonar();
+
+        int xSiguiente = 0;
+        Node ultimo = null;
+
+        while (!copia.esVacio()) {
+            Impresion imp = copia.eliminarMin();
+            String id = imp.toString();
+
+            Node n = graphColaS.addNode(id);
+            n.setAttribute("ui.label", id);
+            n.setAttribute("xy", xSiguiente, 0); 
+
+            if (ultimo != null) {
+                graphColaS.addEdge(ultimo.getId() + "-" + n.getId(), ultimo, n);
+            }
+
+            ultimo = n;
+            xSiguiente += 100; 
+        }
     }
     
      /**
@@ -191,7 +214,26 @@ public class LogicaInterfaz {
             ui.updateConsola("✗ Error: El nodo del usuario no existe.\n");
         }
     }
-    
+  
+    public void agregarAColaUI(Impresion imp) {
+        String id = imp.toString();
+        if (graphColaS.getNode(id) != null) {
+            return;
+        }
+
+        Node nuevoNode = graphColaS.addNode(id);
+        nuevoNode.setAttribute("ui.label", id);
+        int xPos = graphColaS.getNodeCount() * -50;
+        nuevoNode.setAttribute("xy", xPos, 0);
+
+        if (ultimoNodo != null) {
+            String edgeId = id + "_" + ultimoNodo.getId();
+            graphColaS.addEdge(edgeId, nuevoNode, ultimoNodo);
+        }
+
+        ultimoNodo = nuevoNode;
+    }
+
     /**
      * Un procedimiento que recibe un nombre de usuario y un documento para
      * eliminar de la interfaz gráfica. El botón de la interfaz gráfica ya a
