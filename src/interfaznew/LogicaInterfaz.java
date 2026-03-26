@@ -11,249 +11,99 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 import primitivas.GuardadoCSV;
 import primitivas.HashTable;
+import primitivas.Nodo;
 
 /**
  *
  * @author miwindowspc
- */
-public class LogicaInterfaz {
-
-    private Graph graph;
-    private Viewer viewer;
+     */
+    public class LogicaInterfaz {
     private GuardadoCSV guardado = new GuardadoCSV();
     private InterfazGrafica ui;
-    private Simulador motor; //SE AÑADIO ESTO PARA COMUNICARSE CON FUNCIONES DEL RELOJ Y DE AÑADIR USUARIOS
-    
-    /**
-     * El constructor de la logica de interfaz.
-     *
-     * @param ui Una InterfazGrafica que se desea conectar con la logica.
-     * @param m Un motor (Proyecto2EDD) que se desea conectar para el reloj y
-     * otras funciones.
-     */
-    public LogicaInterfaz(InterfazGrafica ui, Simulador m) {
-        System.setProperty("org.graphstream.ui", "swing");
-        graph = new SingleGraph("UsuariosView");
-        String css = "node { shape: box; fill-color: green; text-alignment: center; padding: 10px; size-mode: fit; } "
-                + "node.prioridad_alta { fill-color: red; } "
-                + "node.prioridad_media { fill-color: yellow; }"
-                + "node.documento { "
-                + "   size: 10px; "
-                + "   fill-color: gray; "
-                + "   shape: circle; "
-                + "   stroke-mode: plain; "
-                + "   stroke-color: black; "
-                + "   z-index: 0; "
-                + "} "
-                + "edge { fill-color: #CCC; size: 1px; }";
-        graph.setAttribute("ui.stylesheet", css);
-        this.ui = ui;
-        this.motor = m;
-    }
-    
-    /**
-     * Un procedimiento que añade un usario a la UI.
-     *
-     * @param user Un usuario que se revisa si ya existe en la UI antes de
-     * añadir.
-     */
-    public void AñadirUsuarioUI(Usuario user) {
-        String username = user.getNombre();
-        if (graph.getNode(username) == null) {
-            var novo = graph.addNode(username);
-            novo.setAttribute("ui.label", username + ", " + user.getPrioridad() + ", " + "Documentos: " + "0");
-            novo.setAttribute("ui.class", user.getPrioridad());
-        }
+    private Simulador motor;
 
+    LogicaInterfaz(InterfazGrafica aThis, Simulador motor) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     /**
-     * Un procedimiento que muestra la ventana gráfica de los usuarios.
-     */
-    public void mostrarVentanaUser() {
-    if (viewer == null) {
-        viewer = graph.display();
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+* Guarda usuarios y documentos en CSV
+*/
+public boolean guardarUsuariosEnCSV() {
+    String rutaBase = System.getProperty("user.dir");
+    boolean exito = guardado.guardarUsuariosEnCSV(motor.getUsuarios(), rutaBase);
+    if (exito) {
+        ui.updateConsola("✓ Usuarios y documentos guardados exitosamente\n");
     } else {
-        // Acceso correcto a la vista en GraphStream 2.0+
-        org.graphstream.ui.view.View view = viewer.getDefaultView();
-        
-        if (view instanceof javax.swing.JFrame) {
-            ((javax.swing.JFrame) view).setVisible(true);
-            ((javax.swing.JFrame) view).toFront();
-        } else if (view instanceof javax.swing.JPanel) {
-            // Si la vista está incrustada en un panel, busca el ancestro JFrame
-            java.awt.Component parent = (java.awt.Component) view;
-            while (parent != null && !(parent instanceof javax.swing.JFrame)) {
-                parent = parent.getParent();
-            }
-            if (parent != null) {
-                ((javax.swing.JFrame) parent).setVisible(true);
-                ((javax.swing.JFrame) parent).toFront();
-            }
-        }
+        ui.updateConsola("✗ Error al guardar CSV\n");
     }
+    return exito;
 }
-    /**
-     * Un procedimiento que muestra la ventana de la cola de impresión
-     */
-    public void mostrarVentanaCola() {
-        System.setProperty("org.graphstream.ui", "swing");
-        Graph graph = new SingleGraph("ArbolCola");
-        String css = "node {"
-                + "shape: box;"
-                + "stroke-mode: plain;"
-                + "stroke-color: #000000;"
-                + "fill-color: green;"
-                + "text-alignment: center;"
-                + "padding: 10, 15px;"
-                + "size: 20px, 20px;"
-                + "size-mode: fit;"
-                + "text-size: 14;"
-                + "}";
-
-        graph.setAttribute("ui.stylesheet", css);
-        Node n1 = graph.addNode("A");
-        n1.setAttribute("ui.label", "ID: 102, Paginas: 15, Prioridad: Alta");
-        n1.setAttribute("xy", 0, 0);
-        Node n2 = graph.addNode("B");
-        n2.setAttribute("ui.label", "ID: 105, Paginas: 15, Prioridad: Alta");
-        n2.setAttribute("xy", -1, -1);
-        graph.addEdge("AB", "A", "B");
-        Viewer viewer = graph.display();
-        viewer.disableAutoLayout();
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-    }
-    
-     /**
-     * Un procedimiento que recibe un nombre de usuario y un documento y lo
-     * intenta añadir a aquel usuario, luego añadiendolo a la UI.
-     *
-     * @param username Un string que se desea buscar para ser el receptor del
-     * nuevo documento.
-     * @param doc Un documento que se desea otorgar a un usuario.
-     */
-    public void AnadirDocumentoUser(String username, Documento doc) {
-        Usuario usuario = (Usuario) motor.getUsuarios().get(username);
-
-        if (usuario != null) {
-            usuario.agregarDocumento(doc);
-
-            Node nodoUser = graph.getNode(username);
-            if (nodoUser != null) {
-                String docname = doc.getNombre();
-                String docId = username + "-" + docname;
-                //AÑADIR CHEQUEO POR SI EXISTE EL DOCUMENTO YA EN EL USUARIO
-                if (graph.getNode(docId) == null) {
-                    Node docNode = graph.addNode(docId);
-                    docNode.setAttribute("ui.label", "Nombre: " + docname + ", Paginas: " + doc.getPaginas() + ", Tipo: " + doc.getTipo());
-                    docNode.setAttribute("ui.class", "documento");
-                    graph.addEdge(docId, username, docId);
-                    int totalDocs = usuario.getCantidad();
-                    nodoUser.setAttribute("ui.label", username + ", " + usuario.getPrioridad() + ", Docs: " + totalDocs);
-                }
-            }
-            ui.updateConsola("✓ Documento '" + doc.getNombre() + "' añadido a " + username + "\n");
-            JOptionPane.showMessageDialog(ui, "Usuario registrado con éxito.");
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "El usuario '" + username + "' no existe en el sistema.",
-                    "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
-            ui.updateConsola("✗ Error al guardar documento: El usuario no existe.");
-        }
-    }
     
     /**
-     * Un procedimiento que recibe un usuario y lo intenta eliminar de la
-     * interfaz gráfica.
-     *
-     * @param user Un usuario que se desea eliminar.
-     */
-    public void eliminarUsuarioUI(Usuario user) {
-        String username = user.getNombre();
-        Documento[] docs = user.getDocumentos();
+* Carga usuarios y documentos desde CSV
+*/
+public boolean cargarUsuariosDesdeCSV() {
+    boolean exito = guardado.cargarUsuariosDesdeCSV(motor.getUsuarios());
+    if (exito) {
+        ui.updateConsola("✓ Usuarios cargados exitosamente\n");
+        actualizarUIUsuarios(); // ✅ Actualizar la interfaz gráfica
+    } else {
+        ui.updateConsola("✗ Error al cargar CSV\n");
+    }
+    return exito;
+}
 
-        Node usernode = graph.getNode(username);
-        if (usernode != null) {
-            for (Documento doc : docs) {
-                if (doc != null) {
-                    String docId = username + "-" + doc.getNombre();
-                    if (graph.getNode(docId) != null) {
-                        graph.removeNode(docId);
+    
+    // ✅ Método helper para actualizar UI después de cargar
+public void actualizarUIUsuarios() {
+    HashTable<String, Usuario> usuarios = motor.getUsuariosLocal();
+    for (int i = 0; i < usuarios.getCapacidad(); i++) {
+        Nodo<String, Usuario> nodo = usuarios.getTabla()[i];
+        while (nodo != null) {
+            Usuario user = nodo.getValor();
+            if (user != null) {
+                AñadirUsuarioUI(user);
+                // Añadir documentos a la UI
+                for (int j = 0; j < user.getCantidad(); j++) {
+                    Documento doc = user.getDocumentos()[j];
+                    if (doc != null) {
+                        AnadirDocumentoUser(user.getNombre(), doc);
                     }
                 }
             }
-            graph.removeNode(username);
-            ui.updateConsola("✓ Usuario " + username + " eliminado.\n");
-            JOptionPane.showMessageDialog(ui, "Usuario eliminado con éxito.");
-        } else {
-            ui.updateConsola("✗ Error: El nodo del usuario no existe.\n");
+            nodo = nodo.getpNext();
         }
     }
-    
-    /**
-     * Un procedimiento que recibe un nombre de usuario y un documento para
-     * eliminar de la interfaz gráfica. El botón de la interfaz gráfica ya a
-     * este punto ha hecho el llamado para eliminar el documento del usuario.
-     *
-     * @param username Una string que es el nombre del usuario que se le desea
-     * eliminar un documento.
-     * @param doc El documento a eliminar.
-     */
-    public void eliminarDocumentoUI(String username, Documento doc) {
-        String docId = username + "-" + doc.getNombre();
-        if (graph.getNode(docId) != null) {
-            graph.removeNode(docId);
+}
 
-            Usuario usuario = (Usuario) motor.getUsuarios().get(username);
-            Node nodoUser = graph.getNode(username);
-            if (nodoUser != null && usuario != null) {
-                nodoUser.setAttribute("ui.label", username + ", " + usuario.getPrioridad() + ", Docs: " + usuario.getCantidad());
-            }
-        }
-    }
-    
-    
-     /**
-     * Una función que retorna el hashtable de los usuarios locales.
-     *
-     * @return
-     */
-    public HashTable<String, Usuario> getUsuariosLocal() {
-        return motor.getUsuarios(); // 
-    }
-    
-    /**
-     * Una función que guarda los usuarios en el CSV y retorna si fue exitoso o
-     * no.
-     *
-     * @return Un booleano que indica true si fue exitoso o false si no lo fue.
-     */
-    boolean guardarUsuariosEnCSV() {
+    void AñadirUsuarioUI(Usuario user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    /**
-     * Una función que intenta cargar una CSV y retorna si fue exitoso o no.
-     *
-     * @return Un booleano que indica true si fue exitoso o false si no lo fue.
-     */
-    boolean cargarUsuariosDesdeCSV() {
+
+    void AnadirDocumentoUser(String nombre, Documento doc) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    /**
-     * Una función que intenta registrar a un usuario, recibiendo un nombre y
-     * una prioridad, y retorna si fue exitoso o no.
-     *
-     * @param nombre Un string que es el nombre del usuario.
-     * @param prioridad Un string que es la prioridad del usuario.
-     * @return Un booleano que indica true si fue exitoso la adición del usuario
-     * o false en lo contrario.
-     */
-    public boolean intentarRegistrarUsuario(String nombre, String prioridad) {
-        return motor.agregarUsuario(nombre, prioridad);
+
+    void eliminarDocumentoUI(String username, Documento doc) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    void mostrarVentanaCola() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    boolean intentarRegistrarUsuario(String nombre, String prioridad) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void mostrarVentanaUser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+   
+
+    void eliminarUsuarioUI(Usuario usuarioExistente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -4,6 +4,7 @@ import clases.Usuario;
 import primitivas.GuardadoCSV;
 import clases.Documento;
 import javax.swing.JOptionPane;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -162,21 +163,18 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             String prioridad = "";
             switch (seleccion) {
-                case 0: {
+                case 0 ->  {
                     prioridad = "prioridad_alta";
-                    break;
                 }
 
-                case 1: {
+                case 1 ->  {
                     prioridad = "prioridad_media";
-                    break;
                 }
 
-                case 2: {
+                case 2 ->  {
                     prioridad = "prioridad_baja";
-                    break;
                 }
-                default: {
+                default -> {
                     return;
                 }
             }
@@ -255,21 +253,21 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAnadirDocActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean exito = logica.guardarUsuariosEnCSV();
-        if (exito) {
-            updateConsola("✓ Usuarios guardados exitosamente en CSV\n");
-        } else {
-            updateConsola("✗ Error al guardar CSV\n");
-        }
+       boolean exito = logica.cargarUsuariosDesdeCSV(); // ✅ Corregido
+    if (exito) {
+        updateConsola("✓ Usuarios cargados exitosamente desde CSV\n");
+    } else {
+        updateConsola("✗ Error al cargar CSV\n");
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        boolean exito = logica.guardarUsuariosEnCSV();
-        if (exito) {
-            updateConsola("✓ Usuarios guardados exitosamente en CSV\n");
-        } else {
-            updateConsola("✗ Error al guardar CSV\n");
-        }
+       boolean exito = logica.guardarUsuariosEnCSV();
+    if (exito) {
+        updateConsola("✓ Usuarios guardados exitosamente en CSV\n");
+    } else {
+        updateConsola("✗ Error al guardar CSV\n");
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void botonEliminarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarDocumentoActionPerformed
@@ -311,7 +309,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
-            return;
         }
         else
         {
@@ -337,7 +334,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InterfazGrafica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
