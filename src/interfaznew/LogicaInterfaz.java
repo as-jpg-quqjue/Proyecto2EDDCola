@@ -207,8 +207,7 @@ public class LogicaInterfaz {
             nodo.setAttribute("xy", x, y);
             nodo.setAttribute("ui.label",
                     "Índice: " + i
-                    + "\nID: " + impresiones[i].toString()
-                    + "\nUser: " + impresiones[i].getNombreUsuario());
+                    + "\nID: " + impresiones[i].toString());
         }
 
         for (int i = 1; i <= n; i++) {
@@ -247,11 +246,13 @@ public class LogicaInterfaz {
             if (nodoUser != null) {
                 String docname = doc.getNombre();
                 String docId = username + "-" + docname;
-                //AÑADIR CHEQUEO POR SI EXISTE EL DOCUMENTO YA EN EL USUARIO
                 if (graph.getNode(docId) == null) {
                     Node docNode = graph.addNode(docId);
                     docNode.setAttribute("ui.label", "Nombre: " + docname + ", Paginas: " + doc.getPaginas() + ", Tipo: " + doc.getTipo());
                     docNode.setAttribute("ui.class", "documento");
+                    if (doc.isEncola()){
+                        docNode.setAttribute("ui.style", "fill-color: #3498db;");
+                    }
                     graph.addEdge(docId, username, docId);
                     int totalDocs = usuario.getCantidad();
                     nodoUser.setAttribute("ui.label", username + ", " + usuario.getPrioridad() + ", Docs: " + totalDocs);

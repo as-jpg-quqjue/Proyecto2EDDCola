@@ -71,6 +71,6 @@ public class Impresion {
      */
     @Override
     public String toString() {
-        return "[" + documento.getNombre() + " | T:" + prioridad + "]";
+        return "[" + documento.getNombre() + " | T:" + prioridad + "] + | ";
     }
 }

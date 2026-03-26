@@ -128,32 +128,34 @@ public class InterfazGrafica extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(botonMostrarColaArbol))
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(botonMostrarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(botonMostrarColaArbol)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(302, 302, 302)
+                                .addGap(90, 90, 90)
+                                .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(botonAnadirDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonEliminarDocumento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonEliminarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(73, 73, 73)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(botonAnadirDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(botonEliminarDocumento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(botonEliminarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(botonAnadirCola, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addComponent(botonAnadirCola, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(75, 75, 75)
-                                .addComponent(botonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(226, 226, 226)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -168,27 +170,24 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addComponent(botonMostrarCola)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(botonAddUser))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(botonMostrarColaArbol)
-                                    .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(botonAnadirCola)
-                            .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(38, 38, 38))
+                            .addComponent(botonMostrarCola)
+                            .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botonMostrarColaArbol)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addGap(32, 32, 32))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(botonAnadirDoc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonAnadirCola)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonAddUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonEliminarDocumento))
@@ -288,8 +287,15 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     int paginas = Integer.parseInt(paginasS);
                     if (paginas > 0) { //luego se verifica si la cantidad de paginas es mayor a 0
                         String tipo = JOptionPane.showInputDialog(this, "Tipo de documento:");
-                        Documento doc = new Documento(docname, paginas, tipo, false);
-                        logica.AnadirDocumentoUser(username, doc);
+                        if (tipo != null){
+                            Documento doc = new Documento(docname, paginas, tipo, false);
+                            logica.AnadirDocumentoUser(username, doc);
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this, "✗ Error, tiene que declarar un tipo de documento.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        updateConsola("✗ Error al añadir documento: Tiene que declarar un tipo de documento.\n");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(this, "La cantidad de páginas debe ser mayor a 0.", "ERROR", JOptionPane.ERROR_MESSAGE);
                         updateConsola("✗ Error al añadir documento: La cantidad de paginas debe ser mayor a 0.\n");
@@ -351,7 +357,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 updateConsola("✓ Documento " + docname + " eliminado.\n");
                 JOptionPane.showMessageDialog(this, "Documento eliminado.");
             } else {
-                updateConsola("✗ No se pudo elimiinar el documento, esta en cola.\n");
+                updateConsola("✗ No se pudo eliminar el documento, esta en cola.\n");
             }
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró el documento.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -469,41 +475,39 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     private void botonEliminarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarColaActionPerformed
         String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
-        if (username == null) {
-            JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
-            updateConsola("✗ Error: Debe colocar un nombre.\n");
+        if (username == null || username.trim().isEmpty()) {
             return;
         }
+
         username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
+
         if (usuarioExistente == null) {
-            JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } 
-        else {
-            String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
-            if (docname == null) {
-                JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
-                updateConsola("✗ Error: Debe colocar un nombre.\n");
-                return;
+        }
+
+        String docname = JOptionPane.showInputDialog(this, "Nombre del documento a quitar de cola:");
+        if (docname == null || docname.trim().isEmpty()) {
+            return;
+        }
+
+        docname = Normalizador.NormalizarTexto(docname);
+        Documento doc = usuarioExistente.buscar(docname);
+
+        if (doc != null) {
+            boolean exito = motor.eliminarDocumentoDeCola(username, doc);
+            if (exito) {
+                updateConsola("✓ Documento '" + docname + "' eliminado de la cola.\n");
+                logica.refrescarColaArbolUI();
+                logica.refrescarColaUI(motor.getColaOrdenadaParaUI());
+                JOptionPane.showMessageDialog(this, "Eliminado con éxito.");
+            } else {
+                updateConsola("✗ El documento '" + docname + "' no estaba en la cola.\n");
+                JOptionPane.showMessageDialog(this, "El documento no está en la cola actualmente.");
             }
-            docname = Normalizador.NormalizarTexto(docname);
-            Documento doc = usuarioExistente.buscar(docname);
-            if (doc != null) {
-                boolean exito = motor.eliminarDocumentoDeCola(username, doc);
-                if (exito)
-                {
-                    updateConsola("✓ Documento de nombre " + docname + " ha sido eliminado de la cola.\n");
-                }
-                else{
-                    updateConsola("✗ Error: La cola parece estar vacia.\n");
-                }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El usuario no tiene un documento llamado: " + docname);
         }
     }//GEN-LAST:event_botonEliminarColaActionPerformed
 

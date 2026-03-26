@@ -90,29 +90,35 @@ public class Simulador {
      */
     public boolean eliminarDocumentoDeCola(String nombreUsuario, Documento docAEliminar) {
         Lista<Impresion> listaEnCola = impresiones.get(nombreUsuario);
-        if (listaEnCola == null) {
-            return false;
+    if (listaEnCola == null) return false;
+
+    Impresion impEncontrada = null;
+    for (int i = 0; i < listaEnCola.getiN(); i++) {
+        Impresion actual = listaEnCola.buscarPosición(i);
+        if (actual.getDoc().getNombre().equals(docAEliminar.getNombre())) {
+            impEncontrada = actual;
+            break;
         }
+    }
 
-        Impresion impEncontrada = null;
-
-        for (int i = 0; i < listaEnCola.getiN(); i++) {
-            Impresion actual = listaEnCola.buscarPosición(i);
-            if (actual.getDoc().equals(docAEliminar)) {
-                impEncontrada = actual;
-                break;
-            }
-        }
-
-        if (impEncontrada != null) {
-           // impEncontrada.setPrioridad(Long.MIN_VALUE);
-            colaImpresion.flotar(impEncontrada.getIndice());
-
-            colaImpresion.eliminarMin();
-
+    if (impEncontrada != null && impEncontrada.getIndice() != -1) {
+        int idx = impEncontrada.getIndice();
+        
+        // Verificación de seguridad extra
+        if (idx > 0 && idx <= colaImpresion.getiN()) {
+            // Forzamos que sea el mínimo absoluto para que suba a la raíz
+            impEncontrada.setPrioridad(Long.MIN_VALUE); 
+            colaImpresion.flotar(idx);
+            
+            // Ahora que es la raíz, eliminarMin lo sacará correctamente
+            colaImpresion.eliminarMin(); 
+            
+            // Limpieza de referencias
             listaEnCola.remover(impEncontrada);
+            docAEliminar.setEncola(false); 
             return true;
         }
+    }
         return false;
     }
     
@@ -127,6 +133,7 @@ public class Simulador {
         Impresion impresa = colaImpresion.eliminarMin();
 
         if (impresa != null) {
+            impresa.getDoc().setEncola(false);
             Lista<Impresion> listaUser = impresiones.get(impresa.getNombreUsuario());
             if (listaUser != null) {
                 listaUser.remover(impresa);

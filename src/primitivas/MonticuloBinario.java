@@ -130,7 +130,6 @@ public class MonticuloBinario {
         Impresion aux = impresiones[i];
         impresiones[i] = impresiones[j];
         impresiones[j] = aux;
-
         if (impresiones[i] != null) {
             impresiones[i].setIndice(i);
         }
@@ -232,7 +231,10 @@ public class MonticuloBinario {
         copia.iN = this.iN;
 
         for (int i = 1; i <= iN; i++) {
-            copia.impresiones[i] = this.impresiones[i];
+            Impresion original = this.impresiones[i];
+            Impresion copiaImp = new Impresion(original.getDoc(), original.getPrioridad(), original.getNombreUsuario());
+            copiaImp.setIndice(i);
+            copia.impresiones[i] = copiaImp;
         }
         return copia;
     }
