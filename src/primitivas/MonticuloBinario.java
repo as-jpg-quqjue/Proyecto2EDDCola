@@ -221,7 +221,11 @@ public class MonticuloBinario {
     public void setiN(int iN) {
         this.iN = iN;
     }
-
+    
+    /**
+     * Una función que retorna una copia de si misma.
+     * @return Un monticulo binario identico a este.
+     */
     public MonticuloBinario clonar() {
         MonticuloBinario copia = new MonticuloBinario();
         copia.impresiones = new Impresion[this.impresiones.length];

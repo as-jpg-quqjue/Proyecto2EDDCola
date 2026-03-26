@@ -23,7 +23,7 @@ import primitivas.Lista;
  */
 public class Simulador {
 
-    long reloj;
+    long reloj = 1;
     int secuencia;
     HashTable<String, Usuario> usuarios = new HashTable(10);
     HashTable<String, Lista<Impresion>> impresiones = new HashTable(10);
@@ -105,7 +105,7 @@ public class Simulador {
         }
 
         if (impEncontrada != null) {
-            impEncontrada.setPrioridad(Long.MIN_VALUE);
+           // impEncontrada.setPrioridad(Long.MIN_VALUE);
             colaImpresion.flotar(impEncontrada.getIndice());
 
             colaImpresion.eliminarMin();
@@ -167,9 +167,8 @@ public class Simulador {
      *
      * @return Se retorna la impresión realizada.
      */
-    public Impresion tic() {
+    public void tic() {
         reloj++;
-        return liberarImpresora();
     }
     
     /**
@@ -226,6 +225,10 @@ public class Simulador {
         return listaParaUI;
     }
     
+    /**
+     * Esta función retorna la cola de impresión del simulador.
+     * @return 
+     */
     public MonticuloBinario getColaImpresion()
     {
         return this.colaImpresion;

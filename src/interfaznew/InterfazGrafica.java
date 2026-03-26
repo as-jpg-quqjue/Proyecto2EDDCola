@@ -12,6 +12,7 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 import primitivas.Lista;
 import proyecto2edd.Simulador;
+import primitivas.Normalizador;
 
 /**
  *
@@ -53,6 +54,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
         botonEliminarDocumento = new javax.swing.JButton();
         botonEliminarUsuario = new javax.swing.JButton();
         botonAnadirCola = new javax.swing.JButton();
+        labelReloj = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        botonMostrarColaArbol = new javax.swing.JButton();
+        botonImprimirUltimo = new javax.swing.JButton();
+        botonEliminarCola = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +96,22 @@ public class InterfazGrafica extends javax.swing.JFrame {
         botonAnadirCola.setText("Añadir A Cola");
         botonAnadirCola.addActionListener(this::botonAnadirColaActionPerformed);
 
+        labelReloj.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        labelReloj.setForeground(new java.awt.Color(120, 0, 0));
+        labelReloj.setText("1");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel2.setText("Reloj:");
+
+        botonMostrarColaArbol.setText("Mostrar Cola Arbol");
+        botonMostrarColaArbol.addActionListener(this::botonMostrarColaArbolActionPerformed);
+
+        botonImprimirUltimo.setText("Imprimir 1ro en Cola");
+        botonImprimirUltimo.addActionListener(this::botonImprimirUltimoActionPerformed);
+
+        botonEliminarCola.setText("Eliminar de Cola");
+        botonEliminarCola.addActionListener(this::botonEliminarColaActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,58 +119,85 @@ public class InterfazGrafica extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonMostrarUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonMostrarCola, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(302, 302, 302)
-                                    .addComponent(botonEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(botonEliminarDocumento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(botonAnadirDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonAddUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelReloj)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(botonMostrarColaArbol))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonMostrarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(302, 302, 302)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botonAnadirDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botonEliminarDocumento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botonEliminarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(92, 92, 92)
+                                .addComponent(botonAnadirCola, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(75, 75, 75)
+                                .addComponent(botonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(226, 226, 226)))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(213, 213, 213)
-                .addComponent(botonAnadirCola, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAddUser)
-                    .addComponent(botonMostrarCola))
-                .addGap(38, 38, 38)
-                .addComponent(botonAnadirCola)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAnadirDoc)
-                    .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel1)
+                    .addComponent(labelReloj)
+                    .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonEliminarDocumento)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(botonMostrarCola)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(botonAddUser))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(botonMostrarColaArbol)
+                                    .addComponent(botonImprimirUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(botonEliminarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonAnadirCola)
+                            .addComponent(botonMostrarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(38, 38, 38))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(botonAnadirDoc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEliminarDocumento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(botonEliminarUsuario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -164,6 +213,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private void botonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAddUserActionPerformed
         String nombre = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         if (nombre != null && !nombre.trim().isEmpty()) {
+            nombre = Normalizador.NormalizarTexto(nombre);
             String[] opciones = {"Prioridad Alta", "Prioridad Media", "Prioridad Baja"};
             int seleccion = JOptionPane.showOptionDialog(this,
                     "¿Qué prioridad desea que tenga este usuario?",
@@ -220,6 +270,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         if (username == null) { //se añade esto por si acaso el usuario escapa
             return;
         }
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
 
         if (usuarioExistente == null) {
@@ -228,6 +279,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
 
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+        docname = Normalizador.NormalizarTexto(docname);
         if (usuarioExistente.buscar(docname) == null) {
             String paginasS = JOptionPane.showInputDialog(this, "Cantidad de paginas:");
 
@@ -266,30 +318,22 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAnadirDocActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean exito = logica.guardarUsuariosEnCSV();
-        if (exito) {
-            updateConsola("✓ Usuarios guardados exitosamente en CSV\n");
-        } else {
-            updateConsola("✗ Error al guardar CSV\n");
-        }
+        boolean exito = logica.cargarUsuariosDesdeCSV();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         boolean exito = logica.guardarUsuariosEnCSV();
-        if (exito) {
-            updateConsola("✓ Usuarios guardados exitosamente en CSV\n");
-        } else {
-            updateConsola("✗ Error al guardar CSV\n");
-        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void botonEliminarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarDocumentoActionPerformed
         String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         if (username == null) {
             JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ Error: Debe colocar un nombre.\n");
             return;
         }
-
+        
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -297,6 +341,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
 
         String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+        docname = Normalizador.NormalizarTexto(docname);
         Documento doc = usuarioExistente.buscar(docname);
 
         if (doc != null) {
@@ -306,10 +351,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 updateConsola("✓ Documento " + docname + " eliminado.\n");
                 JOptionPane.showMessageDialog(this, "Documento eliminado.");
             } else {
-                updateConsola("✗ Error al eliminar documento.\n");
+                updateConsola("✗ No se pudo elimiinar el documento, esta en cola.\n");
             }
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró el documento.", "Error", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ Error: No se encontro el documento para eliminar.\n");
         }
     }//GEN-LAST:event_botonEliminarDocumentoActionPerformed
 
@@ -317,14 +363,18 @@ public class InterfazGrafica extends javax.swing.JFrame {
         String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         if (username == null) { //se añade esto por si acaso el usuario escapa
             JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ Error: Debe colocar un nombre.\n");
             return;
         }
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ No se pudo elimiinar el usuario, no existe.\n");
             return;
         } else {
             logica.eliminarUsuarioUI(usuarioExistente);
+            motor.eliminarUsuario(username);
         }
 
     }//GEN-LAST:event_botonEliminarUsuarioActionPerformed
@@ -333,8 +383,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
         String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
         if (username == null) {
             JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ Error: Debe colocar un nombre.\n");
             return;
         }
+        username = Normalizador.NormalizarTexto(username);
         Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
         if (usuarioExistente == null) {
             JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
@@ -343,8 +395,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
             String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
             if (docname == null) {
                 JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+                updateConsola("✗ Error: Debe colocar un nombre.\n");
                 return;
             }
+            docname = Normalizador.NormalizarTexto(docname);
             Documento doc = usuarioExistente.buscar(docname);
             if (doc != null) {
                 if (!doc.isEncola()) {
@@ -375,8 +429,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     }
                     Impresion imp = motor.enviarACola(usuarioExistente, doc, motor.getReloj(), prioritario);
                     doc.setEncola(true);
+                    motor.tic();
+                    ActualizarReloj();
                     logica.agregarAColaUI(imp);
-                    //AÑADIR NOTIFICACIONES DE EXITO
+                    logica.refrescarColaUI(motor.getColaOrdenadaParaUI());
+                    updateConsola("✓ Documento añadido a la cola exitosamente.\n");
                 }
                 else
                 {
@@ -390,11 +447,76 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonAnadirColaActionPerformed
 
+    private void botonMostrarColaArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarColaArbolActionPerformed
+        logica.refrescarColaArbolUI();
+        logica.mostrarVentanaColaArbol();
+    }//GEN-LAST:event_botonMostrarColaArbolActionPerformed
+
+    private void botonImprimirUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonImprimirUltimoActionPerformed
+        Impresion elim = motor.liberarImpresora();
+        if (elim == null)
+        {
+            JOptionPane.showMessageDialog(this, "Error: La cola esta vacia.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        else
+        {
+            motor.tic();
+            ActualizarReloj();
+             updateConsola("✓ Elemento de mayor prioridad impreso, " + elim.getDoc().getNombre() + " ha sido impreso.\n");
+        }
+    }//GEN-LAST:event_botonImprimirUltimoActionPerformed
+
+    private void botonEliminarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarColaActionPerformed
+        String username = JOptionPane.showInputDialog(this, "Nombre del usuario:");
+        if (username == null) {
+            JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            updateConsola("✗ Error: Debe colocar un nombre.\n");
+            return;
+        }
+        username = Normalizador.NormalizarTexto(username);
+        Usuario usuarioExistente = (Usuario) logica.getUsuariosLocal().get(username);
+        if (usuarioExistente == null) {
+            JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+            return;
+        } 
+        else {
+            String docname = JOptionPane.showInputDialog(this, "Nombre del documento:");
+            if (docname == null) {
+                JOptionPane.showMessageDialog(this, "Error: Debe colocar un nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+                updateConsola("✗ Error: Debe colocar un nombre.\n");
+                return;
+            }
+            docname = Normalizador.NormalizarTexto(docname);
+            Documento doc = usuarioExistente.buscar(docname);
+            if (doc != null) {
+                boolean exito = motor.eliminarDocumentoDeCola(username, doc);
+                if (exito)
+                {
+                    updateConsola("✓ Documento de nombre " + docname + " ha sido eliminado de la cola.\n");
+                }
+                else{
+                    updateConsola("✗ Error: La cola parece estar vacia.\n");
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Error: El usuario '" + username + "' no existe.", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+    }//GEN-LAST:event_botonEliminarColaActionPerformed
+
     public void updateConsola(String input) {
         output.setText("");
         output.append(input);
     }
-
+    
+    public void ActualizarReloj()
+    {
+        labelReloj.setText(String.valueOf(motor.getReloj()));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -419,14 +541,19 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JButton botonAddUser;
     private javax.swing.JButton botonAnadirCola;
     private javax.swing.JButton botonAnadirDoc;
+    private javax.swing.JButton botonEliminarCola;
     private javax.swing.JButton botonEliminarDocumento;
     private javax.swing.JButton botonEliminarUsuario;
+    private javax.swing.JButton botonImprimirUltimo;
     private javax.swing.JButton botonMostrarCola;
+    private javax.swing.JButton botonMostrarColaArbol;
     private javax.swing.JButton botonMostrarUser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelReloj;
     private javax.swing.JTextArea output;
     // End of variables declaration//GEN-END:variables
 }

@@ -27,7 +27,9 @@ public class LogicaInterfaz {
     private InterfazGrafica ui;
     private Simulador motor; //SE AÑADIO ESTO PARA COMUNICARSE CON FUNCIONES DEL RELOJ Y DE AÑADIR USUARIOS
     private Graph graphColaS;
+    private Graph graphColaArbol;
     private Node ultimoNodo;
+    private String rutaBase = System.getProperty("user.dir");
     
     /**
      * El constructor de la logica de interfaz.
@@ -55,6 +57,7 @@ public class LogicaInterfaz {
         this.ui = ui;
         this.motor = m;
         graphColaS = new SingleGraph("ColaViewSimple");
+        graphColaArbol = new SingleGraph("ColaViewArbol");
     }
     
     /**
@@ -101,24 +104,31 @@ public class LogicaInterfaz {
     }
 }
     /**
-     * Un procedimiento que muestra la ventana de la cola de impresión
+     * Un procedimiento que muestra la ventana de la cola de impresión simple.
      */
     public void mostrarVentanaCola() {
         System.setProperty("org.graphstream.ui", "swing");
-        /*
-        Node n1 = graph.addNode("A");
-        n1.setAttribute("ui.label", "ID: 102, Paginas: 15, Prioridad: Alta");
-        n1.setAttribute("xy", 0, 0);
-        Node n2 = graph.addNode("B");
-        n2.setAttribute("ui.label", "ID: 105, Paginas: 15, Prioridad: Alta");
-        n2.setAttribute("xy", -1, -1);
-        graph.addEdge("AB", "A", "B");
-        */
         Viewer viewer = graphColaS.display();
         viewer.disableAutoLayout();
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
     }
     
+    /**
+     * Un procedimiento que muestra la ventana de la cola de impresión arbol.
+     */
+    public void mostrarVentanaColaArbol()
+    {
+       System.setProperty("org.graphstream.ui", "swing"); 
+       Viewer viewer = graphColaArbol.display();
+       viewer.disableAutoLayout();
+       viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+    }
+
+    
+    /**
+     * Un procedimiento que refresca la cola de UI.
+     * @param colaDeImpresion La lista del monticulo binario convertido.
+     */
     public void refrescarColaUI(Lista<Impresion> colaDeImpresion) {
        graphColaS.clear();
     
@@ -145,6 +155,77 @@ public class LogicaInterfaz {
 
             ultimo = n;
             xSiguiente += 100; 
+        }
+    }
+    
+    public void refrescarColaArbolUI() {
+        graphColaArbol.clear();
+
+        String css = "node { "
+                + "shape: box; "
+                + "fill-color: #3498db; "
+                + "text-alignment: center; "
+                + "text-size: 14; "
+                + "padding: 10px; "
+                + "size-mode: fit; "
+                + "stroke-mode: plain; "
+                + "stroke-color: black; "
+                + "} "
+                + "edge { fill-color: black; size: 2px; }";
+
+        graphColaArbol.setAttribute("ui.stylesheet", css);
+
+        MonticuloBinario cola = motor.getColaImpresion().clonar();
+        Impresion[] impresiones = cola.getImpresiones();
+        int n = cola.getiN();
+
+        if (n == 0) {
+            return;
+        }
+
+        int maxNivel = (int) (Math.log(n) / Math.log(2));
+        double separacionBaseX = 40.0;
+        double separacionY = 50.0;
+
+        for (int i = 1; i <= n; i++) {
+            if (impresiones[i] == null) {
+                continue;
+            }
+
+            String nodeId = "heap_" + i;
+            Node nodo = graphColaArbol.addNode(nodeId);
+
+            int nivel = (int) (Math.log(i) / Math.log(2));
+            int inicioNivel = 1 << nivel;
+            int posEnNivel = i - inicioNivel;
+            int cantidadEnNivel = 1 << nivel;
+
+            double anchoNivel = Math.pow(2, maxNivel - nivel) * separacionBaseX;
+            double x = (posEnNivel - (cantidadEnNivel - 1) / 2.0) * anchoNivel;
+            double y = -nivel * separacionY;
+
+            nodo.setAttribute("xy", x, y);
+            nodo.setAttribute("ui.label",
+                    "Índice: " + i
+                    + "\nID: " + impresiones[i].toString()
+                    + "\nUser: " + impresiones[i].getNombreUsuario());
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (impresiones[i] == null) {
+                continue;
+            }
+
+            int hijoIzq = 2 * i;
+            int hijoDer = 2 * i + 1;
+
+            if (hijoIzq <= n && impresiones[hijoIzq] != null) {
+                graphColaArbol.addEdge("edge_" + i + "_" + hijoIzq, "heap_" + i, "heap_" + hijoIzq);
+            }
+
+            if (hijoDer <= n && impresiones[hijoDer] != null) {
+                graphColaArbol.addEdge("edge_" + i + "_" + hijoDer, "heap_" + i, "heap_" + hijoDer);
+            }
         }
     }
     
@@ -188,7 +269,7 @@ public class LogicaInterfaz {
     }
     
     /**
-     * Un procedimiento que recibe un usuario y lo intenta eliminar de la
+     * Un procedimiento que recibe un usuario y lo intenta eliminar de la interfaz.
      * interfaz gráfica.
      *
      * @param user Un usuario que se desea eliminar.
@@ -214,7 +295,11 @@ public class LogicaInterfaz {
             ui.updateConsola("✗ Error: El nodo del usuario no existe.\n");
         }
     }
-  
+    
+    /**
+     * Un procedimiento que recibe una impresión y la añade a la UI de colas.
+     * @param imp La impresión a añadir.
+     */
     public void agregarAColaUI(Impresion imp) {
         String id = imp.toString();
         if (graphColaS.getNode(id) != null) {
@@ -223,8 +308,8 @@ public class LogicaInterfaz {
 
         Node nuevoNode = graphColaS.addNode(id);
         nuevoNode.setAttribute("ui.label", id);
-        int xPos = graphColaS.getNodeCount() * -50;
-        nuevoNode.setAttribute("xy", xPos, 0);
+        //int xPos = graphColaS.getNodeCount() * -50;
+        //nuevoNode.setAttribute("xy", xPos, 0);
 
         if (ultimoNodo != null) {
             String edgeId = id + "_" + ultimoNodo.getId();
@@ -273,16 +358,15 @@ public class LogicaInterfaz {
      * @return Un booleano que indica true si fue exitoso o false si no lo fue.
      */
     boolean guardarUsuariosEnCSV() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    /**
-     * Una función que intenta cargar una CSV y retorna si fue exitoso o no.
-     *
-     * @return Un booleano que indica true si fue exitoso o false si no lo fue.
-     */
-    boolean cargarUsuariosDesdeCSV() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean exito = guardado.guardarUsuariosEnCSV(motor.getUsuarios(), rutaBase);
+        if (exito)
+        {
+            ui.updateConsola("✓ Usuarios guardados exitosamente\n");
+        }
+        else{
+            ui.updateConsola("✗ Error al guardar CSV\n");
+        }
+        return exito;
     }
     
     /**
@@ -296,6 +380,48 @@ public class LogicaInterfaz {
      */
     public boolean intentarRegistrarUsuario(String nombre, String prioridad) {
         return motor.agregarUsuario(nombre, prioridad);
+    }
+    
+
+    /**
+     * Una función que intenta cargar una CSV y retorna si fue exitoso o no.
+     *
+     * @return Un booleano que indica true si fue exitoso o false si no lo fue.
+     */
+    public boolean cargarUsuariosDesdeCSV() {
+        graph.clear(); 
+        String css = "node { shape: box; fill-color: green; text-alignment: center; padding: 10px; size-mode: fit; } "
+                    + "node.prioridad_alta { fill-color: red; } "
+                    + "node.prioridad_media { fill-color: yellow; }"
+                    + "node.documento { "
+                    + "   size: 10px; "
+                    + "   fill-color: gray; "
+                    + "   shape: circle; "
+                    + "   stroke-mode: plain; "
+                    + "   stroke-color: black; "
+                    + "   z-index: 0; "
+                    + "} "
+                    + "edge { fill-color: #CCC; size: 1px; }";
+        graph.setAttribute("ui.stylesheet", css);
+
+        boolean exito = guardado.cargarUsuariosDesdeCSV(motor.getUsuarios()); 
+
+        if (exito) {
+            HashTable<String, Usuario> listaCargada = motor.getUsuarios();
+
+            for (int i = 0; i < listaCargada.getCapacidad(); i++) {
+                var nodoHash = listaCargada.getTabla()[i];
+                while (nodoHash != null) {
+                    Usuario u = (Usuario) nodoHash.getValor();
+                    AñadirUsuarioUI(u); 
+                    nodoHash = nodoHash.getpNext();
+                }
+            }
+            ui.updateConsola("✓ Usuarios cargados.\n");
+        } else {
+            ui.updateConsola("✗ Error al cargar CSV\n");
+        }
+        return exito;
     }
 
 }
